@@ -41,15 +41,26 @@ var displayCityWeather = function(weatherdata, searchTerm) {
 
     // display city's temperature
     var paragraph = document.createElement("p");
-
     var temp = document.createElement("span");
-    temp.textContent = Math.floor(weatherdata.main.temp) + " degrees";
-
-    paragraph.appendChild(temp)
-
+    temp.textContent = Math.floor(weatherdata.main.temp) + " degrees F";
+    paragraph.appendChild(temp);
     cityContainerEl.appendChild(paragraph);
 
+
+    // display city's Wind
+    var paragraph2 = document.createElement("p");
+    var wind = document.createElement("span");
+    wind.textContent = "Wind Direction: " + Math.floor(weatherdata.wind.speed) + " MPH";
+    paragraph2.appendChild(wind);
+    cityContainerEl.appendChild(paragraph2);
     
+
+    // display city's Humidity
+    var paragraph3 = document.createElement("p");
+    var humidity = document.createElement("span");
+    humidity.textContent = "Humidity: " + weatherdata.main.humidity + "%";
+    paragraph3.appendChild(humidity);
+    cityContainerEl.appendChild(paragraph3);
 
 }
 
