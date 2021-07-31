@@ -17,14 +17,30 @@
     <header>
         <h1>Weather Dashboard</h1>
     </header>
-    <main>
+
+    <main class="row justify-space-between">
+        <div class="col-12 col-md-4">
+            <div class="card">
+                <h3 class="card-header card-title">Search for a City</h3>
+                <form id="user-form" class="card-body">
+                    <input type="text" id="cityname" class="col" autofocus="true" placeholder="Spring City" />
+                    <button type="submit" class="btn btn-primary col">Search</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-md-8">
+            <h2 class="subtitle">Displaying Weather for: <span id="weather-search-term"></span></h2>
+            <div id="city-container" class="list-group"></div>
+        </div>
 
     </main>
 
     <script src="./Assets/JS/script.js"></script>
     
     <!-- day.js used for dates and time of day -->
-    <script src="path/to/dayjs/dayjs.min.js"></script>
+    
 
 
 </body>
