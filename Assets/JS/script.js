@@ -2,7 +2,7 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#cityname");
 var cityContainerEl = document.querySelector("#city-container");
 var forecastContainerEl = document.querySelector("#forecast-container");
-var citySaverEl = document.querySelector("saved-city-container");
+var citySaverEl = document.querySelector("#saved-city-container");
 var weatherSearchTerm = document.querySelector("#weather-search-term");
 
 
@@ -36,19 +36,24 @@ var getCurrentWeather = function(city) {
         })
 };
 
+// Can't get local storage working
+// should create a variable for the searched city, then save it to local storage, append it to a Div called citySaverEl, and it should remain on the page, but it does not
 var saveCitySearch = function(citynamesave) {
-    console.log(citynamesave);
-    localStorage.setItem("citysave", citynamesave);
-    var savedCity = localStorage.getItem("citysave");
+    var savedCity = citynamesave;
+    console.log(savedCity);
+    localStorage.setItem("citysave", savedCity);
+    
 
 
 
     var cityDiv = document.createElement("div");
     var cityButton = document.createElement("p");
+    cityButton.setAttribute('class', 'btn', 'btn-secondary');
     cityButton.textContent = savedCity;
     
     cityDiv.appendChild(cityButton);
     citySaverEl.appendChild(cityDiv);
+    cityButton = localStorage.getItem("citysave");
 }
 
 var displayCityWeather = function(weatherdata, searchTerm) {
@@ -108,6 +113,8 @@ var getForecast = function(lat, lon) {
 
                 // console.log(wind5);
 
+
+           
                  // Displays and dynamically creates forecast cards
             var cardContainer = document.createElement("div");
             cardContainer.setAttribute('class', 'card', 'col');
@@ -131,7 +138,10 @@ var getForecast = function(lat, lon) {
                 
             }
            
+            
         });
+         // Clears previous data
+         forecastContainerEl.textContent = "";
     });
     
 }
