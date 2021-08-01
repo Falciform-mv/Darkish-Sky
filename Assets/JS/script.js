@@ -2,6 +2,7 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#cityname");
 var cityContainerEl = document.querySelector("#city-container");
 var forecastContainerEl = document.querySelector("#forecast-container");
+var citySaverEl = document.querySelector("saved-city-container");
 var weatherSearchTerm = document.querySelector("#weather-search-term");
 
 
@@ -31,13 +32,28 @@ var getCurrentWeather = function(city) {
         }) .then(function(data) {
             // console.log(data.main.temp)
             displayCityWeather(data, city);
+            saveCitySearch(city);
         })
 };
 
+var saveCitySearch = function(citynamesave) {
+    console.log(citynamesave);
+    localStorage.setItem("citysave", citynamesave);
+    var savedCity = localStorage.getItem("citysave");
+
+
+
+    var cityDiv = document.createElement("div");
+    var cityButton = document.createElement("p");
+    cityButton.textContent = savedCity;
+    
+    cityDiv.appendChild(cityButton);
+    citySaverEl.appendChild(cityDiv);
+}
 
 var displayCityWeather = function(weatherdata, searchTerm) {
-    console.log(weatherdata);
-    console.log(searchTerm);
+    // console.log(weatherdata);
+    // console.log(searchTerm);
     cityContainerEl.textContent = "";
     weatherSearchTerm.textContent = searchTerm;
 
@@ -81,22 +97,36 @@ var getForecast = function(lat, lon) {
     var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=imperial&appid=9afbc1b15973c9d7704cc4f6dcd7af3c"
     fetch(forecastApi).then(function(response) {
         response.json().then(function(data) {
-            console.log(data)
+            // console.log(data)
             // the whole forecast data object is stored in the variable forecastData
-            var forecastData = data;
-            // runs through 5 days of weather data to acquire the forecast's temperatures
+            
+            // runs through 5 days of weather data to acquire the forecast's temperatures, wind, and humidity
             for (i = 1; i <6; i++) {
-                var temp1 = data.daily[i].temp.max;
-                console.log(temp1);
+                var temp5 = Math.floor(data.daily[i].temp.max);
+                var wind5 = Math.floor(data.daily[i].wind_speed);
+                var humid5 = Math.floor(data.daily[i].humidity);
+
+                // console.log(wind5);
 
                  // Displays and dynamically creates forecast cards
             var cardContainer = document.createElement("div");
             cardContainer.setAttribute('class', 'card', 'col');
             var cardText = document.createElement("div");
             cardText.setAttribute('class', 'col-2', 'card-body');
+            // displays the list of forecasted temperatures
             var fivetemps = document.createElement("p");
-            fivetemps.textContent = "Temp: " + temp1; 
-            cardText.appendChild(fivetemps);   
+            fivetemps.textContent = "Temp: " + temp5; 
+            // displays list of forecasted wind
+            var fivewinds = document.createElement("p");
+            fivewinds.textContent = "Wind: " + wind5 + " MPH";
+            // displays list of forecasted humidity
+            var fivehumid = document.createElement("p");
+            fivehumid.textContent = "Humidity: " + humid5 + " %";
+
+
+            cardText.appendChild(fivetemps); 
+            cardText.appendChild(fivewinds);  
+            cardText.appendChild(fivehumid);
             forecastContainerEl.appendChild(cardText); 
                 
             }
