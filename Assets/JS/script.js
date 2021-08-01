@@ -11,6 +11,8 @@ var formSubmitHandler = function(event) {
     var cityname = cityInputEl.value.trim()
     if (cityname) {
         getCurrentWeather(cityname);
+        // should take the city name input and pass the lat and lon coordinates to the getforecast
+         getForecast(cityname.coord.lat, cityname.coord.lon)
         cityContainerEl.textContent = "";
         cityInputEl.value = "";
     } else {
@@ -27,7 +29,7 @@ var getCurrentWeather = function(city) {
         .then(function(response) {
             return response.json()
         }) .then(function(data) {
-            console.log(data.main.temp)
+            // console.log(data.main.temp)
             displayCityWeather(data, city);
         })
 };
@@ -61,6 +63,17 @@ var displayCityWeather = function(weatherdata, searchTerm) {
     humidity.textContent = "Humidity: " + weatherdata.main.humidity + "%";
     paragraph3.appendChild(humidity);
     cityContainerEl.appendChild(paragraph3);
+
+}
+
+// displays 5 day forecast in card format
+var getForecast = function(lat, lon) {
+    var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly&appid=9afbc1b15973c9d7704cc4f6dcd7af3c"
+    fetch(forecastApi).then(function(response) {
+        response.json().then(function(data) {
+            console.log(response)
+        });
+    });
 
 }
 
