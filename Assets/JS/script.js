@@ -1,7 +1,8 @@
 var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#cityname");
 var cityContainerEl = document.querySelector("#city-container");
-var weatherSearchTerm = document.querySelector("#weather-search-term")
+var forecastContainerEl = document.querySelector("#forecast-container");
+var weatherSearchTerm = document.querySelector("#weather-search-term");
 
 
 
@@ -12,7 +13,6 @@ var formSubmitHandler = function(event) {
     if (cityname) {
         getCurrentWeather(cityname);
         // should take the city name input and pass the lat and lon coordinates to the getforecast
-         getForecast(cityname.coord.lat, cityname.coord.lon)
         cityContainerEl.textContent = "";
         cityInputEl.value = "";
     } else {
@@ -64,17 +64,52 @@ var displayCityWeather = function(weatherdata, searchTerm) {
     paragraph3.appendChild(humidity);
     cityContainerEl.appendChild(paragraph3);
 
+    // variables for 5 day forecast
+    var latitude = weatherdata.coord.lat;
+    var longitude = weatherdata.coord.lon;
+
+    // calls getForecast and passes the variables that are equal to the api data from whatever city the user inputs
+    getForecast(latitude, longitude);
+    
+
+
+
 }
 
-// displays 5 day forecast in card format
+// API call for 5 day forecast
 var getForecast = function(lat, lon) {
-    var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly&appid=9afbc1b15973c9d7704cc4f6dcd7af3c"
+    var forecastApi = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=current,minutely,hourly,alerts&units=imperial&appid=9afbc1b15973c9d7704cc4f6dcd7af3c"
     fetch(forecastApi).then(function(response) {
         response.json().then(function(data) {
-            console.log(response)
+            console.log(data)
+            // the whole forecast data object is stored in the variable forecastData
+            var forecastData = data;
+            // runs through 5 days of weather data to acquire the forecast's temperatures
+            for (i = 1; i <6; i++) {
+                var temp1 = data.daily[i].temp.max;
+                console.log(temp1);
+
+                 // Displays and dynamically creates forecast cards
+            var cardContainer = document.createElement("div");
+            cardContainer.setAttribute('class', 'card', 'col');
+            var cardText = document.createElement("div");
+            cardText.setAttribute('class', 'col-2', 'card-body');
+            var fivetemps = document.createElement("p");
+            fivetemps.textContent = "Temp: " + temp1; 
+            cardText.appendChild(fivetemps);   
+            forecastContainerEl.appendChild(cardText); 
+                
+            }
+           
         });
     });
+    
+}
 
+
+// displays 5 day forecast in card format
+var displayForecast = function(futureForecast) {
+    
 }
 
 
