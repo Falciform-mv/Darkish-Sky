@@ -37,17 +37,21 @@ var getCurrentWeather = function(city) {
 };
 
 // Can't get local storage working
+
+
+
 // should create a variable for the searched city, then save it to local storage, append it to a Div called citySaverEl, and it should remain on the page, but it does not
 var saveCitySearch = function(citynamesave) {
     var savedCity = citynamesave;
     console.log(savedCity);
+    // Step 1 set savedCity to localStorage
+    //create an empty array that can hold the cities
+    //PUSH user-selected city into the array
+    //set the array to localStorage, not the savedCity variable
     localStorage.setItem("citysave", savedCity);
     
-
-
-
     var cityDiv = document.createElement("div");
-    var cityButton = document.createElement("p");
+    var cityButton = document.createElement("button");
     cityButton.setAttribute('class', 'btn', 'btn-secondary');
     cityButton.textContent = savedCity;
     
@@ -55,6 +59,33 @@ var saveCitySearch = function(citynamesave) {
     citySaverEl.appendChild(cityDiv);
     cityButton = localStorage.getItem("citysave");
 }
+
+var getsavedCity = function() {
+    const previousCity = localStorage.getItem('citysave');
+    if (previousCity) {
+        //append everything
+        //when we pull out local storage, it'll be in an array, so we'll need to LOOP through the items and make sure each of them is a button
+        var cityDiv = document.createElement("div");
+        var cityButton = document.createElement("button");
+        cityButton.setAttribute('class', 'btn', 'btn-secondary');
+        cityButton.textContent = previousCity;
+
+        cityDiv.appendChild(cityButton);
+        citySaverEl.appendChild(cityDiv);
+    
+    }
+    
+
+}
+
+//if there is value in this function || if the function is not null
+// if(getsavedCity()) {
+    //append city info to container
+    // give it the same styling/element tags as in saveCitySearch
+// }
+
+//you should be able to refresh page and see the city, because we're calling the function independtly 
+getsavedCity();
 
 var displayCityWeather = function(weatherdata, searchTerm) {
     // console.log(weatherdata);
