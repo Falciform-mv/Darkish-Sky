@@ -150,7 +150,7 @@ var getForecast = function(lat, lon) {
             var cardContainer = document.createElement("div");
             cardContainer.setAttribute('class', 'card', 'col');
             var cardText = document.createElement("div");
-            cardText.setAttribute('class', 'col-2', 'card-body');
+            cardText.setAttribute('class', 'col-2', 'card text-white bg-primary mb-3', 'card-body');
             // displays the list of forecasted temperatures
             var fivetemps = document.createElement("p");
             fivetemps.textContent = "Temp: " + temp5; 
