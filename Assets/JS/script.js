@@ -142,7 +142,7 @@ var getForecast = function(lat, lon) {
                 var wind5 = Math.floor(data.daily[i].wind_speed);
                 var humid5 = Math.floor(data.daily[i].humidity);
 
-                // console.log(wind5);
+                
 
 
            
